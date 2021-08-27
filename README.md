@@ -14,7 +14,7 @@ A couple of sample configurations for using Speech Analytics APIs are provided i
 
 Shown above is the configuration for running speech-to-text with topics ans suggested-intents enabled.
 
-These configurations can be used as is or modified to meed specific requirements. Refer to [API docs](https://docs.marsview.ai/speech-analytics-api/compute-metadata/configuring-models) or more information on how to configure models.
+These configurations can be used as is or modified to meet specific requirements. Refer to [API docs](https://docs.marsview.ai/speech-analytics-api/compute-metadata/configuring-models) or more information on how to configure models.
 
 ## Step 3:
 running main.py
