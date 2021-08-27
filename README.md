@@ -11,6 +11,7 @@ Update these values in config.py
 ## Step 2:
 A couple of sample configurations for using Speech Analytics APIs are provided in config.py
 ![image](https://user-images.githubusercontent.com/89631839/131158660-69d1f169-80a8-4113-b55c-2bba482bab92.png)
+
 Shown above is the configuration for running speech-to-text with topics ans suggested-intents enabled.
 
 These configurations can be used as is or modified to meed specific requirements. Refer to [API docs](https://docs.marsview.ai/speech-analytics-api/compute-metadata/configuring-models) or more information on how to configure models.
@@ -25,3 +26,7 @@ Main.py has 4 stages
 - Stage 4: Long poll for the status of the compute request untill the model completes processing.
 - Stage 5: Fetch Metadata on the Transaction_ID
 
+## Step 4:
+Visualise the output using the **'experienceUrl'** in the metadata or by visiting [Marsview portal](app.marsview.ai)
+
+![image](https://user-images.githubusercontent.com/89631839/131159474-1600043f-4a30-4a9a-ab92-47a418bc275b.png)
