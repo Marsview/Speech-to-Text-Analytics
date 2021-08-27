@@ -5,14 +5,15 @@ Python client end code for Marsview Speech Analytics APIs
 ## Step 1:
 Signup on [Marsview portal](app.marsview.ai) and fetch API Key and API Token
 Update these values in config.py
+![IM-1](https://gblobscdn.gitbook.com/assets%2F-MaxSab-_c4clZreM9ft%2F-McUJSnRlslrM7wCcAdb%2F-McUJx4lF7WPJBxCsk4o%2FScreenshot%202021-06-18%20at%207.02.35%20PM.png?alt=media&token=c466bae4-6b04-4b85-b1eb-4ed02a169538)
 
 
 ## Step 2:
 A couple of sample configurations for using Speech Analytics APIs are provided in config.py
+![image](https://user-images.githubusercontent.com/89631839/131158660-69d1f169-80a8-4113-b55c-2bba482bab92.png)
+Shown above is the configuration for running speech-to-text with topics ans suggested-intents enabled.
 
-These configurations can be used as is or modified to meed specific requirements
-
-Refer to [API docs](https://docs.marsview.ai/speech-analytics-api/compute-metadata/configuring-models) or more information on how to configure models.
+These configurations can be used as is or modified to meed specific requirements. Refer to [API docs](https://docs.marsview.ai/speech-analytics-api/compute-metadata/configuring-models) or more information on how to configure models.
 
 ## Step 3:
 running main.py
