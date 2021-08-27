@@ -34,7 +34,8 @@ if __name__ == "__main__":
                         "num_speakers":2
                     },
                     "enableKeywords":True,
-                    "enableTopics":False
+                    "enableTopics":False,
+                    "enableSuggestedIntents":True
                     }
                 }
             ]
@@ -45,7 +46,7 @@ if __name__ == "__main__":
     #step 4 (Long Polling)
     #NOTE: This step is used to wait for the uploaded request to complete
     sapi.long_polling(transaction_id)
-
+    
 
     #step 5 (Fetch Metadata)
     metadata = sapi.get_metadata(transaction_id)
