@@ -12,7 +12,7 @@ Update these values in config.py
 A couple of sample configurations for using Speech Analytics APIs are provided in config.py
 ![image](https://user-images.githubusercontent.com/89631839/131158660-69d1f169-80a8-4113-b55c-2bba482bab92.png)
 
-Shown above is the configuration for running speech-to-text with topics ans suggested-intents enabled.
+Shown above is the configuration for running speech-to-text with topics and suggested-intents enabled.
 
 These configurations can be used as is or modified to meet specific requirements. Refer to [API docs](https://docs.marsview.ai/speech-analytics-api/compute-metadata/configuring-models) or more information on how to configure models.
 
