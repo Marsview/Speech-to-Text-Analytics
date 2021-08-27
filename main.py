@@ -4,6 +4,9 @@ import config
 import json
 from pprint import pprint
 
+def formatConfig(transaction_id,conf=config.SPEECH_TO_TEXT_CONFIG):
+    conf["txnId"] = transaction_id
+    return conf
 
 if __name__ == "__main__":
     #step 1 (Create JWT Token)
@@ -22,24 +25,7 @@ if __name__ == "__main__":
     transaction_id = data["data"]["txnId"]
 
     #step 3 (Upload Compute Request)
-    compute_payload = {
-        "txnId": transaction_id,
-        "enableModels":[
-            {
-            "modelType":"speech_to_text",
-                "modelConfig":{
-                    "automatic_punctuation" : True,
-                    "custom_vocabulary":["Marsview", "Communication"],
-                    "speaker_seperation":{
-                        "num_speakers":2
-                    },
-                    "enableKeywords":True,
-                    "enableTopics":False,
-                    "enableSuggestedIntents":True
-                    }
-                }
-            ]
-        }
+    compute_payload = formatConfig(transaction_id,conf=config.SPEECH_TO_TEXT_CONFIG)
     _ , compute_data = sapi.sendComputeRequest(payload=compute_payload)
     pprint(compute_data)
 
