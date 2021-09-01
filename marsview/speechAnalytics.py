@@ -2,23 +2,9 @@ import requests
 import magic
 mime = magic.Magic(mime=True)
 import time
-import utils
 
-def refreshToken():
-    #decorator
-    pass
 
-class TokenExpiredError(Exception):
-    pass
 
-def renewToken(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except TokenExpiredError:            
-            request_new_token()
-            return func(*args, **kwargs)
-    return wrapper
 class SpeechAnalyticsAPI:
     def __init__(self, apiKey, apiToken, userId, baseUrl="https://api.marsview.ai/cb/v1"):
         self.baseUrl = baseUrl
@@ -40,6 +26,19 @@ class SpeechAnalyticsAPI:
         headers = {'Content-Type': 'application/json'}
         response = requests.request("POST", url, headers=headers, json=payload)
         self.accessToken = response.json()["data"]["accessToken"]
+
+    class AuthUtils:
+        @staticmethod
+        def refreshToken(func):
+            def wrapper(api,*args,**kwargs):
+                print("NAME", func.__name__)
+                #func()
+                status_code, data =  func(api,*args, **kwargs)
+                if status_code in {403, 401}:
+                    api.createAccessToken()
+                    status_code, data = func(api, *args, **kwargs)
+                return status_code, data
+            return wrapper
 
     @AuthUtils.refreshToken
     def uploadFile(self, file_path, title , description):
@@ -130,14 +129,5 @@ class SpeechAnalyticsAPI:
         else:
             return response.status_code, response.text
 
-    class AuthUtils():
-        @staticmethod
-        def refreshToken(func):
-            def wrapper(api,*args,**kwargs):
-                status_code, data =  api.func(*args, **kwargs)
-                if status_code in {403, 401}:
-                    api.createAccessToken()
-                    status_code, data = api.func(*args, **kwargs)
-                return status_code, data
-    return wrapper
+
 
