@@ -2,14 +2,23 @@ import requests
 import magic
 mime = magic.Magic(mime=True)
 import time
+import utils
+
 def refreshToken():
     #decorator
     pass
 
-
-def createToken():
+class TokenExpiredError(Exception):
     pass
 
+def renewToken(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except TokenExpiredError:            
+            request_new_token()
+            return func(*args, **kwargs)
+    return wrapper
 class SpeechAnalyticsAPI:
     def __init__(self, apiKey, apiToken, userId, baseUrl="https://api.marsview.ai/cb/v1"):
         self.baseUrl = baseUrl
@@ -32,6 +41,7 @@ class SpeechAnalyticsAPI:
         response = requests.request("POST", url, headers=headers, json=payload)
         self.accessToken = response.json()["data"]["accessToken"]
 
+    @AuthUtils.refreshToken
     def uploadFile(self, file_path, title , description):
         #STEP 2
         FILE_PATH = file_path
@@ -54,10 +64,13 @@ class SpeechAnalyticsAPI:
         response = requests.request("POST", url, headers=headers, data=payload, files=files)
         if response.status_code == 200:
             return response.status_code , response.json()
+        elif response.status_code in {'401','403'}:
+            raise utils.AuthError
         else:
             return response.status_code, response.text
 
 
+    @AuthUtils.refreshToken
     def sendComputeRequest(self, payload):
         url = "{}/conversation/compute".format(self.baseUrl)
         payload=payload
@@ -65,9 +78,12 @@ class SpeechAnalyticsAPI:
         response = requests.request("POST", url , headers=headers, json=payload)
         if response.status_code == 200:
             return response.status_code , response.json()
+        elif response.status_code in {'401','403'}:
+            raise utils.AuthError
         else:
             return response.status_code, response.text
 
+    @AuthUtils.refreshToken
     def long_polling(self,transaction_id):
         url = "{baseURL}/conversation/get_txn/{tnx}".format(baseURL=self.baseUrl, tnx=transaction_id)
         payload={}
@@ -97,6 +113,7 @@ class SpeechAnalyticsAPI:
                         return
             time.sleep(60)
 
+    @AuthUtils.refreshToken
     def get_metadata(self, transaction_id):
         metadata_url = "{}/conversation/fetch_metadata/{}".format(self.baseUrl, transaction_id)
         print(metadata_url)
@@ -108,6 +125,19 @@ class SpeechAnalyticsAPI:
         #print(response.text)
         if response.status_code == 200:
             return response.status_code , response.json()
+        elif response.status_code in {'401','403'}:
+            raise utils.AuthError
         else:
             return response.status_code, response.text
+
+    class AuthUtils():
+        @staticmethod
+        def refreshToken(func):
+            def wrapper(api,*args,**kwargs):
+                status_code, data =  api.func(*args, **kwargs)
+                if status_code in {403, 401}:
+                    api.createAccessToken()
+                    status_code, data = api.func(*args, **kwargs)
+                return status_code, data
+    return wrapper
 
