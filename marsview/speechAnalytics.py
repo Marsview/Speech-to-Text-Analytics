@@ -4,7 +4,6 @@ mime = magic.Magic(mime=True)
 import time
 
 
-
 class SpeechAnalyticsAPI:
     def __init__(self, apiKey, apiToken, userId, baseUrl="https://api.marsview.ai/cb/v1"):
         self.baseUrl = baseUrl
@@ -63,8 +62,6 @@ class SpeechAnalyticsAPI:
         response = requests.request("POST", url, headers=headers, data=payload, files=files)
         if response.status_code == 200:
             return response.status_code , response.json()
-        elif response.status_code in {'401','403'}:
-            raise utils.AuthError
         else:
             return response.status_code, response.text
 
@@ -77,8 +74,6 @@ class SpeechAnalyticsAPI:
         response = requests.request("POST", url , headers=headers, json=payload)
         if response.status_code == 200:
             return response.status_code , response.json()
-        elif response.status_code in {'401','403'}:
-            raise utils.AuthError
         else:
             return response.status_code, response.text
 
@@ -124,8 +119,6 @@ class SpeechAnalyticsAPI:
         #print(response.text)
         if response.status_code == 200:
             return response.status_code , response.json()
-        elif response.status_code in {'401','403'}:
-            raise utils.AuthError
         else:
             return response.status_code, response.text
 
